@@ -1,6 +1,6 @@
 namespace Template.Jobs;
 
-public class Worker(ILogger<Worker> logger) : BackgroundService
+public class Worker(ILogger<Worker> logger, IConfiguration configuration) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -8,7 +8,8 @@ public class Worker(ILogger<Worker> logger) : BackgroundService
         {
             if (logger.IsEnabled(LogLevel.Information))
             {
-                logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                var test = configuration.GetConnectionString("DefaultConnection");
+                logger.LogInformation("Worker running at: {Time}, {Test}", DateTimeOffset.Now, test);
             }
             await Task.Delay(1000, stoppingToken);
         }
