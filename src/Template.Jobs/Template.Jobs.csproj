@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -7,8 +7,15 @@
 		<UserSecretsId>$(MSBuildProjectName)</UserSecretsId>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
+	<ItemGroup Label="Application">
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+	</ItemGroup>
+
+	<ItemGroup Label="Scheduler">
+		<PackageReference Include="Coravel" Version="6.0.2" />
+	</ItemGroup>
+
+	<ItemGroup Label="HealthCheck">
 		<PackageReference Include="TinyHealthCheck" Version="2.0.1" />
 	</ItemGroup>
 </Project>

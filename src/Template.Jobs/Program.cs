@@ -1,17 +1,23 @@
-using Template.Jobs;
 using Template.Jobs.Configurations;
-using TinyHealthCheck;
 
 var builder = Host.CreateApplicationBuilder(args);
 var environment = builder.Environment;
+var services = builder.Services;
+var configuration = builder.Configuration;
+
 if (environment.IsEnvironment("Local"))
 {
-    builder.Configuration.AddUserSecrets<Program>();
+    configuration.AddUserSecrets(environment.ApplicationName);
 }
-var services = builder.Services;
+else
+{
+    services.AddHealhcheck();
+}
 
-services.AddHostedService<Worker>();
-services.AddHealhcheck();
+services.AddSchedulers();
 
 var host = builder.Build();
+
+host.UseSchedulers();
+
 await host.RunAsync();
