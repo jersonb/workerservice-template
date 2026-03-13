@@ -14,6 +14,8 @@ else
     services.AddHealhcheck();
 }
 
+services.AddCustomLogging();
+
 services.AddSchedulers();
 
 var host = builder.Build();
