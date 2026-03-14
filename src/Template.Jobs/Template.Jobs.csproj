@@ -14,7 +14,10 @@
 	<ItemGroup Label="Database">
 		<PackageReference Include="Dapper" Version="2.1.72" />
 		<PackageReference Include="Npgsql" Version="10.0.2" />
+		<PackageReference Include="dbup-postgresql" Version="7.0.1" />
+		<EmbeddedResource Include="Data/Migrations/scripts/*.sql" />
 	</ItemGroup>
+
 
 	<ItemGroup Label="Logging">
 		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />

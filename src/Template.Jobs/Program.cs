@@ -1,4 +1,5 @@
 using Template.Jobs.Configurations;
+using Template.Jobs.Data.Migrations;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -16,6 +17,8 @@ else
 }
 
 services.AddCustomLogging();
+
+services.AddHostedService<ApplyMigration>();
 
 services.AddSchedulers();
 
