@@ -71,4 +71,4 @@ public class HealthCheckResult(IDictionary<string, bool> components)
 
     private static string CheckStatus(bool check)
         => check ? "healthy" : "unhealth";
-}"
+}
