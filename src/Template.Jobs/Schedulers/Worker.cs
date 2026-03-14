@@ -1,21 +1,18 @@
 using Coravel.Invocable;
-using Dapper;
-using Npgsql;
+using Template.Jobs.Data;
 
 namespace Template.Jobs.Schedulers;
 
-public class Worker(ILogger<Worker> logger, IConfiguration configuration) : IInvocable
+internal class Worker(ILogger<Worker> logger, DatabaseProvider database) : IInvocable, ICancellableInvocable
 {
+    public CancellationToken CancellationToken { get; set; } = new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token;
+
     public async Task Invoke()
     {
-        var connection = new NpgsqlConnection(configuration.GetConnectionString("Postgres"));
-
-        var ok = await connection.QueryAsync<bool>("select 1");
-
         if (logger.IsEnabled(LogLevel.Information))
         {
-            var test = configuration.GetConnectionString("DefaultConnection");
-            logger.LogInformation("Worker running at: {Time}, {Test}", DateTimeOffset.Now, test);
+            var resut = await database.GetFirtsOrDefault<bool>("select 1", CancellationToken);
+            logger.LogInformation("execute {Result}", resut);
         }
     }
 }

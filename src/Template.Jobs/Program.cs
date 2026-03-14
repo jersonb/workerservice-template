@@ -20,6 +20,8 @@ services.AddCustomLogging();
 
 services.AddHostedService<ApplyMigration>();
 
+services.ConfigureDatabase(configuration);
+
 services.AddSchedulers();
 
 var host = builder.Build();
