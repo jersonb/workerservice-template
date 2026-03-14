@@ -1,6 +1,7 @@
 using Template.Jobs.Configurations;
 
 var builder = Host.CreateApplicationBuilder(args);
+
 var environment = builder.Environment;
 var services = builder.Services;
 var configuration = builder.Configuration;

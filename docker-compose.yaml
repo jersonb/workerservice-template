@@ -1,0 +1,15 @@
+services:
+    postgres:
+        image: postgres:latest
+        container_name: wstp_postgres
+        environment:
+            POSTGRES_USER: wstp
+            POSTGRES_PASSWORD: MyPass01!
+            POSTGRES_DB: wstp
+        ports:
+            - "5432:5432"
+        volumes:
+            - wstp-postgres:/var/lib/postgresql
+
+volumes:
+    wstp-postgres:
