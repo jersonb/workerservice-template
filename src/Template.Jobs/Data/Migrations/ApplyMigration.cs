@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Template.Jobs.Data.Migrations;
 
-internal class ApplyMigration(IConfiguration configuration, ILogger<ApplyMigration> logger) : BackgroundService
+internal class ApplyMigration(IConfiguration configuration, ILogger<ApplyMigration> logger, IHost lifetime) : BackgroundService
 {
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
@@ -22,13 +22,13 @@ internal class ApplyMigration(IConfiguration configuration, ILogger<ApplyMigrati
             if (!upgradeResult.Successful)
             {
                 logger.LogError(upgradeResult.Error, "Erro on try aplly postgres migrations");
-                await base.StopAsync(cancellationToken);
+                await lifetime.StopAsync(cancellationToken);
             }
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Problem on execute postgres migration");
-            await base.StopAsync(cancellationToken);
+            await lifetime.StopAsync(cancellationToken);
         }
 
         logger.LogInformation("Starting apply postgres migration");

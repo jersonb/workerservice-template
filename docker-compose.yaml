@@ -2,6 +2,7 @@ services:
     postgres:
         image: postgres:latest
         container_name: wstp_postgres
+        restart: always
         environment:
             POSTGRES_USER: wstp
             POSTGRES_PASSWORD: MyPass01!
