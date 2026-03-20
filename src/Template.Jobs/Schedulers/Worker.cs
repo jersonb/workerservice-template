@@ -11,8 +11,8 @@ internal class Worker(ILogger<Worker> logger, DatabaseProvider database) : IInvo
     {
         if (logger.IsEnabled(LogLevel.Information))
         {
-            var resut = await database.GetFirtsOrDefault<bool>("select 1", CancellationToken);
-            logger.LogInformation("execute {Result}", resut);
+            var result = await database.GetFirstOrDefault<bool>("select 1", CancellationToken);
+            logger.LogInformation("execute {Result}", result);
         }
     }
 }

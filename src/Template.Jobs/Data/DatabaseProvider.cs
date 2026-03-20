@@ -5,7 +5,7 @@ namespace Template.Jobs.Data;
 
 internal class DatabaseProvider(NpgsqlDataSource dataSource)
 {
-    public async Task<T> GetFirtsOrDefault<T>(string sql, object obj, CancellationToken cancellationToken)
+    public async Task<T> GetFirstOrDefault<T>(string sql, object obj, CancellationToken cancellationToken)
     {
         try
         {
@@ -19,9 +19,9 @@ internal class DatabaseProvider(NpgsqlDataSource dataSource)
         }
     }
 
-    public async Task<T> GetFirtsOrDefault<T>(string sql, CancellationToken cancellationToken)
+    public async Task<T> GetFirstOrDefault<T>(string sql, CancellationToken cancellationToken)
     {
-        return await GetFirtsOrDefault<T>(sql, null!, cancellationToken);
+        return await GetFirstOrDefault<T>(sql, null!, cancellationToken);
     }
 }
 
