@@ -8,6 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup Label="Application">
+		<PackageReference Include="Microsoft.Extensions.Configuration.AzureAppConfiguration" Version="8.5.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
 	</ItemGroup>
 

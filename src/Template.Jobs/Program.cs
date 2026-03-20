@@ -24,6 +24,8 @@ services.ConfigureDatabase(configuration);
 
 services.AddSchedulers();
 
+await services.AddDynamicConfiguration(configuration);
+
 var host = builder.Build();
 
 host.UseSchedulers();
