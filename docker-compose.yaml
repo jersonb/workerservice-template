@@ -1,0 +1,30 @@
+services:
+    postgres:
+        image: postgres:latest
+        container_name: wstp_postgres
+        restart: always
+        environment:
+            POSTGRES_USER: wstp
+            POSTGRES_PASSWORD: MyPass01!
+            POSTGRES_DB: wstp
+        ports:
+            - "5432:5432"
+        volumes:
+            - wstp-postgres:/var/lib/postgresql
+
+    app-configuration:
+        container_name: wstp_app_configuration
+        image:  mcr.microsoft.com/azure-app-configuration/app-configuration-emulator:1.0.2
+        restart: always
+        ports:
+            - 8483:8483
+        environment:
+            Tenant__HmacSha256Enabled: true
+            Tenant__AccessKeys__0__Id: wstp
+            Tenant__AccessKeys__0__Secret: mypass01
+            Tenant__AnonymousAuthEnabled: true
+            Authentication__Anonymous__AnonymousUserRole: Owner
+
+
+volumes:
+    wstp-postgres:

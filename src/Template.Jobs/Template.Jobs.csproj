@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>$(MSBuildProjectName)</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup Label="Application">
+		<PackageReference Include="Microsoft.Extensions.Configuration.AzureAppConfiguration" Version="8.5.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+	</ItemGroup>
+
+	<ItemGroup Label="Database">
+		<PackageReference Include="Dapper" Version="2.1.72" />
+		<PackageReference Include="Npgsql" Version="10.0.2" />
+		<PackageReference Include="Npgsql.DependencyInjection" Version="10.0.2" />
+		<PackageReference Include="dbup-postgresql" Version="7.0.1" />
+		<EmbeddedResource Include="Data/Migrations/scripts/*.sql" />
+	</ItemGroup>
+
+
+	<ItemGroup Label="Logging">
+		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+	</ItemGroup>
+
+	<ItemGroup Label="Scheduler">
+		<PackageReference Include="Coravel" Version="6.0.2" />
+	</ItemGroup>
+
+	<ItemGroup Label="HealthCheck">
+		<PackageReference Include="TinyHealthCheck" Version="2.0.1" />
+	</ItemGroup>
+</Project>
