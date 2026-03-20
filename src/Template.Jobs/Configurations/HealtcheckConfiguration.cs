@@ -1,7 +1,8 @@
-﻿using Dapper;
-using Npgsql;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json.Serialization;
+using Azure.Data.AppConfiguration;
+using Dapper;
+using Npgsql;
 using TinyHealthCheck;
 using TinyHealthCheck.HealthChecks;
 using TinyHealthCheck.Models;
@@ -31,6 +32,7 @@ internal class CustomHealthCheck(IConfiguration configuration) : IHealthCheck
 
         IEnumerable<Task<HealthCheckState>> tasks = [
             CheckDatabase(cancellationToken),
+            CheckAppConfiguration(cancellationToken),
         ];
 
         var checks = await Task.WhenAll(tasks);
@@ -38,14 +40,33 @@ internal class CustomHealthCheck(IConfiguration configuration) : IHealthCheck
         return new JsonHealthCheckResult(result, result.StatusCode);
     }
 
+    private async Task<HealthCheckState> CheckAppConfiguration(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var connectionStringAppConfiguration = configuration.GetConnectionString("AppConfiguration");
+            ArgumentNullException.ThrowIfNull(connectionStringAppConfiguration);
+
+            var client = new ConfigurationClient(connectionStringAppConfiguration);
+            _ = await client
+                .GetRevisionsAsync("*", cancellationToken: cancellationToken)
+                .FirstOrDefaultAsync(cancellationToken);
+            return new HealthCheckState("appConfiguration", true);
+        }
+        catch
+        {
+            return new HealthCheckState("appConfiguration", false);
+        }
+    }
+
     private async Task<HealthCheckState> CheckDatabase(CancellationToken cancellationToken)
     {
         try
         {
-            var connectionString = configuration.GetConnectionString("Postgres");
-            ArgumentNullException.ThrowIfNull(connectionString);
+            var connectionStringPostgres = configuration.GetConnectionString("Postgres");
+            ArgumentNullException.ThrowIfNull(connectionStringPostgres);
 
-            var ok = await new NpgsqlConnection(connectionString).QueryFirstAsync<bool>("select 1", cancellationToken);
+            var ok = await new NpgsqlConnection(connectionStringPostgres).QueryFirstAsync<bool>("select 1", cancellationToken);
 
             return new HealthCheckState("postgres", ok);
         }
